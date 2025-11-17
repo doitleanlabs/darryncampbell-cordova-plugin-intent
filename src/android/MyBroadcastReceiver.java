@@ -25,11 +25,16 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             Log.d("MyBroadcastReceiver", "App in background. Ignoring intent.");
             return;
         }
-
+        if (IntentShim.broadcastCallbackContext == null) {
+            Log.d("MyBroadcastReceiver", "IntentShim.broadcastCallbackContext IS NULL (callback JS não registrada)");
+        } else {
+            Log.d("MyBroadcastReceiver", "IntentShim.broadcastCallbackContext is NOT NULL (callback JS registrada)");
+            Log.d("MyBroadcastReceiver", "Callback class: " + IntentShim.broadcastCallbackContext.getClass().getName());
+        }
         if (IntentShim.broadcastCallbackContext != null && intent != null) {
             try {
-                if (intent.getAction() != null &&
-                    (intent.getAction().equals("com.symbol.datawedge.api.RESULT_ACTION") || intent.getAction().equals("com.dohle.outsystems.SCAN_RESULT"))) {
+                //if (intent.getAction() != null && (intent.getAction().equals("com.symbol.datawedge.api.RESULT_ACTION") || intent.getAction().equals("com.dohle.outsystems.SCAN_RESULT"))) {
+                if (intent.getAction() != null ) {
                     JSONObject intentJson = new JSONObject();
                     intentJson.put("action", intent.getAction());
 
